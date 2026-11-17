@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.venv/
+venv/
+env/
+*.egg-info/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Local data & runtime artifacts
+backend/database/*.db
+backend/database/*.db-journal
+backend/datasets/data/
+saved_models/*.pt
+experiments/*.json
+
+# OS & Editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

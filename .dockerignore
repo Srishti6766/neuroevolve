@@ -1,0 +1,12 @@
+.git
+.gitignore
+frontend/
+saved_models/
+experiments/
+backend/database/*.db*
+backend/datasets/data/
+backend/datasets/uploads/
+backend/tests/
+**/__pycache__/
+*.pyc
+.pytest_cache/
