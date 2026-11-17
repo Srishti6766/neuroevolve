@@ -46,18 +46,16 @@ def _load_torchvision_dataset(
             "Check your internet connection for first-time download, or select the built-in 'Digits (Offline)' dataset or upload a CSV."
         ) from exc
 
-    # Convert directly to normalized float tensors in RAM for fast CPU DataLoader throughput
-    X_train = train_ds.data.float().view(len(train_ds.data), -1) / 255.0
-    y_train = train_ds.targets.long()
-    X_val = val_ds.data.float().view(len(val_ds.data), -1) / 255.0
-    y_val = val_ds.targets.long()
+    # Subset on compact uint8 tensors BEFORE converting to float32 to minimize peak RAM
+    X_tr_u8, y_train = _stratified_subset(train_ds.data, train_ds.targets.long(), max_train_samples, seed=42)
+    X_va_u8, y_val = _stratified_subset(val_ds.data, val_ds.targets.long(), max_val_samples, seed=42)
+
+    X_train = X_tr_u8.float().view(len(X_tr_u8), -1) / 255.0
+    X_val = X_va_u8.float().view(len(X_va_u8), -1) / 255.0
 
     mean, std = (0.1307, 0.3081) if name == "mnist" else (0.2860, 0.3530)
     X_train = (X_train - mean) / std
     X_val = (X_val - mean) / std
-
-    X_train, y_train = _stratified_subset(X_train, y_train, max_train_samples, seed=42)
-    X_val, y_val = _stratified_subset(X_val, y_val, max_val_samples, seed=42)
 
     train_loader = DataLoader(TensorDataset(X_train, y_train), batch_size=batch_size, shuffle=True)
     val_loader = DataLoader(TensorDataset(X_val, y_val), batch_size=max(batch_size, 128), shuffle=False)

@@ -4,7 +4,7 @@ FROM python:3.11-slim
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     NEUROEVOLVE_DATA_DIR=/tmp/neuroevolve_data \
-    PORT=7860
+    PORT=8080
 
 # Create non-root user (required by Hugging Face Spaces)
 RUN useradd -m -u 1000 user
@@ -22,6 +22,6 @@ COPY --chown=user:user backend /app/backend
 RUN mkdir -p /tmp/neuroevolve_data && chown -R user:user /tmp/neuroevolve_data /app
 
 USER user
-EXPOSE 7860
+EXPOSE 8080
 
-CMD ["sh", "-c", "uvicorn backend.main:app --host 0.0.0.0 --port ${PORT:-7860}"]
+CMD ["sh", "-c", "uvicorn backend.main:app --host 0.0.0.0 --port ${PORT:-8080}"]

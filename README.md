@@ -1,12 +1,3 @@
----
-title: NEUROEVOLVE NAS Engine
-emoji: 🧬
-colorFrom: purple
-colorTo: cyan
-sdk: docker
-app_port: 7860
----
-
 # NEUROEVOLVE — Self-Evolving Neural Architecture Search Engine
 
 **NEUROEVOLVE** is a full-stack, 100% local, free and open-source Neural Architecture Search (NAS) platform powered by **PyTorch**, **FastAPI**, **React**, **Tailwind CSS**, **Recharts**, **NetworkX**, and **SQLite**.

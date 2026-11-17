@@ -134,18 +134,19 @@ export default function MonitorPage() {
       setWsStatus
     );
 
-    // Light fallback polling every 4s while running/paused
+    // Fallback polling while running/paused (faster when WebSocket is disconnected on serverless hosts)
+    const pollMs = wsStatus === 'connected' ? 4000 : 2500;
     const poll = setInterval(() => {
       if (experiment?.status === 'running' || experiment?.status === 'paused' || experiment?.status === 'queued') {
         fetchDetail(expId);
       }
-    }, 4000);
+    }, pollMs);
 
     return () => {
       disconnect();
       clearInterval(poll);
     };
-  }, [expId, experiment?.status, fetchDetail]);
+  }, [expId, experiment?.status, wsStatus, fetchDetail]);
 
   useEffect(() => {
     logEndRef.current?.scrollIntoView({ behavior: 'smooth' });
