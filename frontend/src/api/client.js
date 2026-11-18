@@ -2,9 +2,11 @@ const RAW_API_URL = (import.meta.env.VITE_API_URL || '').trim().replace(/\/+$/, 
 const API_BASE = RAW_API_URL ? `${RAW_API_URL}/api` : '/api';
 
 async function request(path, options = {}) {
+  const hasBody = options.body !== undefined && options.body !== null;
+  const isFormData = hasBody && options.body instanceof FormData;
   const res = await fetch(`${API_BASE}${path}`, {
     headers: {
-      ...(options.body instanceof FormData ? {} : { 'Content-Type': 'application/json' }),
+      ...(hasBody && !isFormData ? { 'Content-Type': 'application/json' } : {}),
       ...(options.headers || {}),
     },
     ...options,

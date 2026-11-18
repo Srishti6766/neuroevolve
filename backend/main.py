@@ -17,6 +17,7 @@ def _parse_allowed_origins() -> list[str]:
         if origins:
             return origins
     return [
+        "https://neuroevolve.vercel.app",
         "http://localhost:5173",
         "http://127.0.0.1:5173",
         "http://localhost",

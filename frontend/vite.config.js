@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: '127.0.0.1',
-    port: 80,
+    port: 5173,
     allowedHosts: ['neuroevolve.local', 'localhost', '127.0.0.1'],
     proxy: {
       '/api': {
